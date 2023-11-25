@@ -3,28 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+         #
+#    By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 16:21:20 by mmomeni           #+#    #+#              #
-#    Updated: 2023/11/15 16:22:38 by mmomeni          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/20 22:09:31 by mmomeni           #+#    #+#              #
-#    Updated: 2023/05/07 21:12:20 by mmomeni          ###   ########.fr        #
+#    Updated: 2023/11/25 19:38:56 by htaheri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=		minishell
 CFLAGS=		-Wall -Wextra -Werror
-FUNC=		history.c
+FUNC=		history.c utils.c
 SRCS=		main.c $(FUNC)
 LIBFT_DIR=	libft
 LIBFT=		$(LIBFT_DIR)/libft.a
