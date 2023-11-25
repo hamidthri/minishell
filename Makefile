@@ -6,7 +6,7 @@
 #    By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 16:21:20 by mmomeni           #+#    #+#              #
-#    Updated: 2023/11/25 19:38:56 by htaheri          ###   ########.fr        #
+#    Updated: 2023/11/25 19:46:23 by htaheri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ BONUS_SRCS=	$(BONUS_DIR)/main_bonus.c
 
 all: $(NAME)
 
-$(LIBFT):
+$(LIBFT): 
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(SRCS)
