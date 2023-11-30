@@ -6,20 +6,20 @@
 #    By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 16:21:20 by mmomeni           #+#    #+#              #
-#    Updated: 2023/11/25 19:46:23 by htaheri          ###   ########.fr        #
+#    Updated: 2023/11/30 18:30:40 by htaheri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME=		minishell
-CFLAGS=		-Wall -Wextra -Werror
-FUNC=		history.c utils.c
-SRCS=		main.c $(FUNC)
-LIBFT_DIR=	libft
-LIBFT=		$(LIBFT_DIR)/libft.a
+NAME		=		minishell
+CFLAGS		=		-Wall -Wextra -Werror
+FUNC		=		history.c utils.c builtins/cd_custom.c
+SRCS		=		main.c $(FUNC)
+LIBFT_DIR	=		libft
+LIBFT		=		$(LIBFT_DIR)/libft.a
 
-BONUS_DIR=	bonus
-BONUS_NAME=	minishell_bonus
-BONUS_SRCS=	$(BONUS_DIR)/main_bonus.c
+BONUS_DIR	=		bonus
+BONUS_NAME	=		minishell_bonus
+BONUS_SRCS	=		$(BONUS_DIR)/main_bonus.c
 
 all: $(NAME)
 
@@ -27,7 +27,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(SRCS)
-	$(CC) $(CFLAGS) $(SRCS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(SRCS) -L$(LIBFT_DIR) -lft  -lreadline -o $(NAME)
 
 bonus: $(BONUS_NAME)
 
