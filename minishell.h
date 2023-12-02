@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/30 18:33:05 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/02 15:18:39 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_builtin
 {
 	char	*pwd;
 	char	*oldpwd;
-	char		**env;
+	char	**env;
 }	t_builtin;
 
 void	history_add(char *cmd);
