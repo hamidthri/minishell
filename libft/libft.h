@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:45:13 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/15 16:26:53 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/11/15 16:51:13 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+void				ft_free_split(char **vector);
 char				*get_next_line(int fd);
 
 #endif

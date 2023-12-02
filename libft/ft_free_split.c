@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_free_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 14:11:14 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/02 19:38:30 by mmomeni          ###   ########.fr       */
+/*   Created: 2023/05/05 01:35:58 by mmomeni           #+#    #+#             */
+/*   Updated: 2023/05/05 01:42:17 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	history_add(char *cmd)
+void	ft_free_split(char **vector)
 {
-	int		fd;
-	size_t	i;
+	int	i;
 
-    i = 0;
-	fd = open("~/.minishell_history", O_CREAT | O_APPEND);
-	while (cmd[i])
-		i++;
-	write(fd, "\n", 1);
-	write(fd, cmd, i);
-}
-
-
-char **history_get()
-{
-	
+	i = 0;
+	while (vector && vector[i])
+		free(vector[i++]);
+	free(vector);
 }
