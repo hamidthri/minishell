@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/17 18:31:16 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/19 17:54:55 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,14 @@ typedef struct s_quote_parsed
 }				t_quote_parsed;
 
 t_quote_parsed	parse_quotes(const char *s);
+
+/* Builtins */
+void			ft_echo(char **v);
+void			ft_cd(char **v);
+void			ft_pwd(void);
+void			ft_export(char **v);
+void			ft_unset(char **v);
+void			ft_env(char **v);
+void			ft_exit(char **v);
 
 #endif
