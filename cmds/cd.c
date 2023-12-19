@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 18:22:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/20 00:10:35 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/20 00:57:48 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,15 @@ void	path_to_env(char **env)
 		{
 			tmp = ft_strjoin("PWD=", get_env(env, "PWD"));
 			// free(env[i]);
-			env[i] = tmp;
+			set_env(&env, env[i], tmp);
+			// env[i] = tmp;
 		}
 		if (!ft_strncmp(env[i], "OLDPWD=", 7))
 		{
 			tmp = ft_strjoin("OLDPWD=", get_env(env, "PWD"));
 			// free(env[i]);
-			env[i] = tmp;
+			set_env(&env, env[i], tmp);
+			// env[i] = tmp;
 		}
 		i++;
 	}
