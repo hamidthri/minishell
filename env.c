@@ -6,28 +6,47 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:21:57 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/15 16:48:07 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/17 22:11:09 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env(char *key)
+char	*get_env(char **env, char *key)
 {
-	extern char	**environ;
-	int			i;
+	int	i;
 
+	if (!key || !*key)
+		return (ft_strdup(""));
 	i = 0;
-	while (environ[i])
+	while (env[i])
 	{
-		if (!ft_strncmp(environ[i], key, ft_strlen(key)))
-			return (environ[i] + ft_strlen(key) + 1);
+		if (!ft_strncmp(env[i], key, ft_strlen(key)))
+			return (env[i] + ft_strlen(key) + 1);
 		i++;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
-char	*join_path(char *s1, char *s2)
+void	set_env(char ***env, char *key, char *value)
+{
+	int	i;
+
+	i = 0;
+	while ((*env)[i])
+	{
+		if (!ft_strncmp((*env)[i], key, ft_strlen(key)))
+		{
+			free((*env)[i]);
+			(*env)[i] = ft_strjoin(ft_strjoin(key, "="), value);
+			return ;
+		}
+		i++;
+	}
+	ft_vecadd(env, ft_strjoin(ft_strjoin(key, "="), value));
+}
+
+static char	*join_path(char *s1, char *s2)
 {
 	char	*parent;
 	char	*path;
@@ -40,12 +59,13 @@ char	*join_path(char *s1, char *s2)
 
 char	*get_path(char *program)
 {
-	char	**v;
-	char	*path;
-	int		i;
+	extern char	**environ;
+	char		**v;
+	char		*path;
+	int			i;
 
 	i = 0;
-	v = ft_split(get_env("PATH"), ':');
+	v = ft_split(get_env(environ, "PATH"), ':');
 	while (v[i])
 	{
 		path = join_path(v[i], program);
@@ -55,6 +75,6 @@ char	*get_path(char *program)
 		path = NULL;
 		i++;
 	}
-	ft_free_split(v);
+	ft_vecfree(v);
 	return (NULL);
 }
