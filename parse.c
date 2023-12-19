@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:11:29 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/19 16:57:59 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/19 17:24:19 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,17 +117,25 @@ char	*parse(char *s, char **env)
 	char	*tmp2;
 	char	*tmp3;
 	char	**v;
+	int		hd;
+	int		rd;
 
 	in[0] = 0;
 	v = ft_split(s, ' ');
 	parse_env_vars(v, env);
 	in[1] = ft_veclen(v);
+	dprintf(2, "in[1]: %d\n", in[1]);
 	while (v[in[0]++])
-		in[1] -= parse_heredoc(v, in[0] - 1) + parse_redirect(v, in[0] - 1);
+	{
+		hd = parse_heredoc(v, in[0] - 1);
+		rd = parse_redirect(v, in[0] - 1);
+		dprintf(2, "hd: %d, rd: %d\n", hd, rd);
+		in[1] -= hd + rd;
+	}
+	dprintf(2, "in[1]: %d\n", in[1]);
 	tmp = ft_vecnjoin(v, " ", in[1]);
 	tmp2 = ft_strtrim(tmp, " ");
 	tmp3 = ft_strrmchr(tmp2, "\\;\"'");
-	dprintf(2, "tmp3: [%s]\n", tmp3);
 	free(tmp);
 	free(tmp2);
 	ft_vecfree(v);
