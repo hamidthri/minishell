@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:49:38 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/19 17:53:40 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/19 18:02:51 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_vecget(char **vec, char *key)
 	while (vec[i])
 	{
 		if (!ft_strcmp(vec[i], key))
-			return (vec[i + 1]);
+			return (vec[i]);
 		i++;
 	}
 	return (NULL);
