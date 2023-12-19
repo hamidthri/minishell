@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:11:29 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/19 17:24:19 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/19 17:32:15 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	parse_redirect(char **v, int i)
 {
-	if (ft_strlen(v[i]) == 1)
+	if (ft_strlen(v[i]) == 1 && (v[i][0] == '<' || v[i][0] == '>'))
 	{
 		if (v[i][0] == '<')
 		{
