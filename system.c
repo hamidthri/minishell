@@ -6,17 +6,38 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:16:48 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/18 19:19:10 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/19 17:55:17 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	run_builtin(char **v)
+{
+	if (!ft_strcmp(v[0], "echo"))
+		ft_echo(v);
+	else if (!ft_strcmp(v[0], "cd"))
+		ft_cd(v);
+	else if (!ft_strcmp(v[0], "pwd"))
+		ft_pwd();
+	else if (!ft_strcmp(v[0], "export"))
+		ft_export(v);
+	else if (!ft_strcmp(v[0], "unset"))
+		ft_unset(v);
+	else if (!ft_strcmp(v[0], "env"))
+		ft_env(v);
+	else if (!ft_strcmp(v[0], "exit"))
+		ft_exit(v);
+	free(v);
+}
+
 static void	run(char *s)
 {
 	char	*file;
 	char	**v;
+	char	**builtins;
 
+	builtins = ft_split("echo cd pwd export unset env exit", ' ');
 	v = ft_split(s, ' ');
 	if (!v || !*v)
 		return ;
@@ -25,7 +46,12 @@ static void	run(char *s)
 	else
 		file = get_path(v[0]);
 	if (!file)
-		return (terminate(s, "command not found"));
+	{
+		if (ft_vecget(builtins, v[0]))
+			return (run_builtin(v));
+		else
+			return (terminate(s, "command not found"));
+	}
 	if (execve(file, v, NULL) < 0)
 		terminate(file, NULL);
 	free(file);
