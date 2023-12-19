@@ -3,77 +3,95 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:14:02 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/30 18:14:12 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/18 16:05:20 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int	main(int argc, char **argv, char **envp)
+int	h_up(int count, int key)
 {
-	char		*message;
-	char		**token;
-	t_builtin	*bltin;
+	HIST_ENTRY	*entry;
 
-	if (argc != 1)
+	(void)count;
+	(void)key;
+	entry = previous_history();
+	if (entry)
 	{
-		printf("Error: This program takes no command-line arguments.\n");
-		exit (0);
+		rl_replace_line(entry->line, 0);
+		rl_point = rl_end;
+		rl_redisplay();
 	}
-	(void)argv;
-	bltin = malloc(sizeof(t_builtin));
-	bltin->env = env_dup(envp);
-	// get_env(bltin->env);
-	find_pwd(bltin);
-	printf("pwd: %s\n", bltin->pwd);
-	while (1)
-	{
-		message = readline("bash --> ");
-		token = history_tokenize(message);
-		if (token[0])
-		{
-			if (!ft_strncmp(token[0], "cd", 3))
-			{
-				cd_custom(bltin, "..");
-				// printf("hallo cd\n");
-			}
-			else if (!ft_strncmp(token[0], "pwd", 3))
-				printf("hallo pwd\n");
-			else if (!ft_strncmp(token[0], "echo", 3))
-				printf("hallo pwd\n");
-			else if (!ft_strncmp(token[0], "export", 3))
-				printf("hallo pwd\n");
-			else if (!ft_strncmp(token[0], "unset", 3))
-				printf("hallo pwd\n");
-			else if (!ft_strncmp(token[0], "env", 3))
-				get_env(envp);
-		}
-	}
+	return (0);
 }
 
+int	h_down(int count, int key)
+{
+	HIST_ENTRY	*entry;
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	char		*line;
-// 	t_builtin	*builtin;
+	(void)count;
+	(void)key;
+	entry = next_history();
+	if (entry)
+		rl_replace_line(entry->line, 0);
+	else
+		rl_replace_line("", 0);
+	rl_point = rl_end;
+	rl_redisplay();
+	return (0);
+}
 
-// 	if (argc != 1)
-// 	{
-// 		printf("Error: This program takes no command-line arguments.\n");
-// 		exit (0);
-// 	}
+void	disable_ctrl_sign(void)
+{
+	struct termios	term;
 
-// 	builtin = malloc(sizeof(t_builtin));
-// 	find_pwd(builtin, envp);
-// 	line = get_next_line(STDIN_FILENO);
-// 	while (line)
-// 	{
-// 		free(line);
-// 		line = NULL;
-// 	}
-// }
+	tcgetattr(0, &term);
+	term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(0, TCSANOW, &term);
+}
 
+void	handle_ctrl_c(int sig)
+{
+	(void)sig;
+	ft_putstr_fd("\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+int	main(void)
+{
+	char		*line;
+	char		**tokens;
+	int			i;
+	extern char	**environ;
+
+	using_history();
+	rl_bind_keyseq("\\e[A", &h_up);
+	rl_bind_keyseq("\\e[B", &h_down);
+	disable_ctrl_sign();
+	signal(SIGINT, handle_ctrl_c);
+	while (1)
+	{
+		line = readline("minishell$ ");
+		if (!line)
+			break ;
+		if (!*line)
+			continue ;
+		add_history(line);
+		tokens = ft_split(line, '|');
+		i = 0;
+		while (tokens[i++])
+			tokens[i - 1] = parse(tokens[i -1], environ);
+		run_pipes((int[2]){1, 2}, tokens, ft_veclen(tokens));
+		free(line);
+		ft_vecfree(tokens);
+		line = NULL;
+		tokens = NULL;
+		write_history("~/.minishell_history");
+	}
+	return (0);
+}

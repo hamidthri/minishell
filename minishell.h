@@ -3,36 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/02 15:18:39 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/17 18:31:16 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <fcntl.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include "./libft/libft.h"
+# include <errno.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <termios.h>
+# include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
-typedef struct s_builtin
+void			run_pipes(int fd[2], char **commands, int n);
+void			terminate(char *cmd, char *reason);
+
+char			*get_env(char **env, char *key);
+void			set_env(char ***env, char *key, char *value);
+char			*get_path(char *program);
+
+char			*parse(char *s, char **env);
+void			print_vec(char **vec);
+int				here_doc(char *end, char *hint);
+
+typedef struct s_quote_parsed
 {
-	char	*pwd;
-	char	*oldpwd;
-	char	**env;
-}	t_builtin;
+	char		*str;
+	char		end;
+	char		*hint;
+}				t_quote_parsed;
 
-void	history_add(char *cmd);
-void	find_pwd(t_builtin *builtin);
-void	get_env(char **envp);
-int		cd_custom(t_builtin	*bltin, char *cmd_opt);
-int		find_dir(t_builtin *bltin, char *s);
-char	**env_dup(char	**envp);
+t_quote_parsed	parse_quotes(const char *s);
 
 #endif

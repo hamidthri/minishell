@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_vecnjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 14:11:14 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/15 16:32:05 by mmomeni          ###   ########.fr       */
+/*   Created: 2023/12/08 18:23:54 by mmomeni           #+#    #+#             */
+/*   Updated: 2023/12/08 18:33:45 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	history_add(char *cmd)
+char	*ft_vecnjoin(char **v, char *sep, int n)
 {
-	int		fd;
-	size_t	i;
+	char	*s;
+	char	*tmp;
+	int		i;
 
-    i = 0;
-	fd = open("~/.minishell_history", O_CREAT | O_APPEND);
-	while (cmd[i])
+	i = 0;
+	s = ft_strdup("");
+	while (i < n)
+	{
+		tmp = s;
+		s = ft_strjoin(s, v[i]);
+		free(tmp);
+		if (i + 1 < n)
+		{
+			tmp = s;
+			s = ft_strjoin(s, sep);
+			free(tmp);
+		}
 		i++;
-	write(fd, "\n", 1);
-	write(fd, cmd, i);
+	}
+	return (s);
 }

@@ -3,82 +3,107 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/12/19 17:16:02 by htaheri          ###   ########.fr       */
+=======
+/*   Updated: 2023/12/18 20:05:33 by mmomeni          ###   ########.fr       */
+>>>>>>> d16b32dba437c9e52119586744ea39cefe6b0a74
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_all(char **v)
+void	terminate(char *cmd, char *reason)
 {
-	char	**start;
-
-	start = v;
-	while (*v)
+	ft_putstr_fd("minishell: ", 2);
+	if (cmd)
 	{
-		free(*v);
-		v++;
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": ", 2);
 	}
-	free(start);
+	if (reason)
+		ft_putstr_fd(reason, 2);
+	else
+		ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
 }
 
-char	**env_dup(char	**envp)
+int	here_doc(char *end, char *hint)
 {
-	char	**arr;
-	int		i;
+	char	*line;
+	int		tmp_file;
 
-	i = 0;
-	while (envp[i])
-		i++;
-	arr = ft_calloc((i + 1), sizeof(char *));
-	if (!arr)
-		return (NULL);
-	i = 0;
-	while (envp[i])
+	if (!end || !*end)
+		return (terminate(NULL,
+							"syntax error near unexpected token `newline'"),
+				-1);
+	tmp_file = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	while (1)
 	{
-		arr[i] = ft_strdup(envp[i]);
-		if (!arr[i])
+		line = readline(hint);
+		if (!line || (ft_strlen(line) == ft_strlen(end) && !ft_strncmp(line,
+					end, ft_strlen(end))))
 		{
-			free_all(arr);
-			return (NULL);
+			free(line);
+			break ;
 		}
-		i++;
+		ft_putendl_fd(line, tmp_file);
+		free(line);
+		line = NULL;
 	}
-	return (arr);
+	dup2(tmp_file, 0);
+	close(tmp_file);
+	return (tmp_file);
 }
 
+<<<<<<< HEAD
 void	find_pwd(t_builtin *bltin)
+=======
+void	print_vec(char **vec)
+>>>>>>> d16b32dba437c9e52119586744ea39cefe6b0a74
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	while (bltin->env[i])
+	while (vec[i])
 	{
-		if (!ft_strncmp(bltin->env[i], "PWD=", 4))
-		{
-			bltin->pwd = ft_substr(bltin->env[i], 4,
-					ft_strlen(bltin->env[i]) - 4);
-		}
-		if (!ft_strncmp(bltin->env[i], "OLDPWD=", 7))
-		{
-			bltin->oldpwd = ft_substr(bltin->env[i], 7,
-					ft_strlen(bltin->env[i]) - 7);
-		}
+		printf("[%s]\n", vec[i]);
 		i++;
 	}
 }
 
-void	get_env(char **envp)
-{
-	int		i;
+// void	find_pwd(t_builtin *bltin)
+// {
+// 	int	i;
 
-	i = 0;
-	while (envp[i])
-	{
-		ft_putendl_fd(envp[i], STDOUT_FILENO);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (bltin->env[i])
+// 	{
+// 		if (!ft_strncmp(bltin->env[i], "PWD=", 4))
+// 		{
+// 			bltin->pwd = ft_substr(bltin->env[i], 4, ft_strlen(bltin->env[i])
+// 					- 4);
+// 		}
+// 		if (!ft_strncmp(bltin->env[i], "OLDPWD=", 7))
+// 		{
+// 			bltin->oldpwd = ft_substr(bltin->env[i], 7, ft_strlen(bltin->env[i])
+// 					- 7);
+// 		}
+// 		i++;
+// 	}
+// }
+
+// void	get_env(char **envp)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		ft_putendl_fd(envp[i], STDOUT_FILENO);
+// 		i++;
+// 	}
+// }
