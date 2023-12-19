@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/19 17:37:34 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/19 18:15:53 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ int	here_doc(char *end, char *hint)
 	int		tmp_file;
 
 	if (!end || !*end)
-		return (terminate(NULL,
-							"syntax error near unexpected token `newline'"),
-				-1);
+		return (terminate(NULL, "syntax error near unexpected token `newline'"),
+			-1);
 	tmp_file = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
@@ -65,36 +64,3 @@ void	print_vec(char **vec)
 		i++;
 	}
 }
-
-// void	find_pwd(t_builtin *bltin)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (bltin->env[i])
-// 	{
-// 		if (!ft_strncmp(bltin->env[i], "PWD=", 4))
-// 		{
-// 			bltin->pwd = ft_substr(bltin->env[i], 4, ft_strlen(bltin->env[i])
-// 					- 4);
-// 		}
-// 		if (!ft_strncmp(bltin->env[i], "OLDPWD=", 7))
-// 		{
-// 			bltin->oldpwd = ft_substr(bltin->env[i], 7, ft_strlen(bltin->env[i])
-// 					- 7);
-// 		}
-// 		i++;
-// 	}
-// }
-
-// void	get_env(char **envp)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		ft_putendl_fd(envp[i], STDOUT_FILENO);
-// 		i++;
-// 	}
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:11:29 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/19 17:32:15 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/19 18:51:15 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_quote_parsed	parse_quotes(const char *s)
 		p.hint = ft_strdup("dquote> ");
 	return (p);
 }
+
 static int	parse_heredoc(char **v, int i)
 {
 	t_quote_parsed	p;

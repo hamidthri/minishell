@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/19 17:54:55 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/20 00:05:57 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ typedef struct s_quote_parsed
 t_quote_parsed	parse_quotes(const char *s);
 
 /* Builtins */
-void			ft_echo(char **v);
-void			ft_cd(char **v);
+void			ft_echo(char **env, char **v);
+void			ft_cd(char **env, char **v);
 void			ft_pwd(void);
-void			ft_export(char **v);
-void			ft_unset(char **v);
-void			ft_env(char **v);
-void			ft_exit(char **v);
+void			ft_export(char **env, char **v);
+void			ft_unset(char **env, char **v);
+void			ft_env(char **env, char **v);
+void			ft_exit(char **env, char **v);
 
 #endif
