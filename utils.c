@@ -6,7 +6,11 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2023/12/19 17:16:02 by htaheri          ###   ########.fr       */
+=======
 /*   Updated: 2023/12/18 20:05:33 by mmomeni          ###   ########.fr       */
+>>>>>>> d16b32dba437c9e52119586744ea39cefe6b0a74
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +59,11 @@ int	here_doc(char *end, char *hint)
 	return (tmp_file);
 }
 
+<<<<<<< HEAD
+void	find_pwd(t_builtin *bltin)
+=======
 void	print_vec(char **vec)
+>>>>>>> d16b32dba437c9e52119586744ea39cefe6b0a74
 {
 	int	i;
 
