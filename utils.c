@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/11/30 18:25:41 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/19 17:16:02 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char	**env_dup(char	**envp)
 	}
 	return (arr);
 }
-
 
 void	find_pwd(t_builtin *bltin)
 {
