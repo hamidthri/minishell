@@ -6,25 +6,14 @@
 #    By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 16:21:20 by mmomeni           #+#    #+#              #
-#    Updated: 2023/11/15 16:47:32 by mmomeni          ###   ########.fr        #
+#    Updated: 2023/12/10 17:32:14 by mmomeni          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/20 22:09:31 by mmomeni           #+#    #+#              #
-#    Updated: 2023/05/07 21:12:20 by mmomeni          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 NAME=		minishell
-CFLAGS=		-Wall -Wextra -Werror
-FUNC=		env.c system.c history.c
+CFLAGS=		 -Wall -Wextra -Werror -fsanitize=address -g -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+FUNC=		env.c system.c parse.c utils.c
 SRCS=		main.c $(FUNC)
 LIBFT_DIR=	libft
 LIBFT=		$(LIBFT_DIR)/libft.a
@@ -33,6 +22,8 @@ BONUS_DIR=	bonus
 BONUS_NAME=	minishell_bonus
 BONUS_SRCS=	$(BONUS_DIR)/main_bonus.c
 
+# INCL_RDL_HEADER	= -I /Users/$(USER)/.brew/opt/readline/include
+# INCL_RDL_LIB	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 all: $(NAME)
 
 $(LIBFT):
@@ -55,5 +46,9 @@ fclean: clean
 	$(RM) $(BONUS_NAME)
 
 re: fclean all
+
+test: $(LIBFT) $(FUNC) test.c
+norm:
+	norminette $(SRCS)
 
 .PHONY: all clean fclean re bonus

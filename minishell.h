@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/15 16:46:27 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/17 18:31:16 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,35 @@
 # define MINISHELL_H
 
 # include "./libft/libft.h"
+# include <errno.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <termios.h>
 # include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
-// -------- Pipex --------
-/* System */
+void			run_pipes(int fd[2], char **commands, int n);
+void			terminate(char *cmd, char *reason);
 
-int		run(char *s);
-void	terminate(char *reason);
-void	run_pipes(int fd[2], char **commands, int n);
+char			*get_env(char **env, char *key);
+void			set_env(char ***env, char *key, char *value);
+char			*get_path(char *program);
 
-/* File System */
+char			*parse(char *s, char **env);
+void			print_vec(char **vec);
+int				here_doc(char *end, char *hint);
 
-char	*get_env(char *key);
-char	*join_path(char *s1, char *s2);
-char	*get_path(char *program);
-// -------- Pipex --------
+typedef struct s_quote_parsed
+{
+	char		*str;
+	char		end;
+	char		*hint;
+}				t_quote_parsed;
 
-void	history_add(char *cmd);
+t_quote_parsed	parse_quotes(const char *s);
 
 #endif

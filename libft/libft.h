@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:45:13 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/15 16:51:13 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/15 16:59:17 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ size_t				ft_strlen(const char *s);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
+int					ft_strcount(char *s, char c);
+char				*ft_strrmchr(char *str, char *set);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
@@ -44,6 +46,7 @@ void				*ft_calloc(size_t count, size_t size);
 char				*ft_strdup(const char *s1);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strrepl(char *src, char *old, char *new);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);
@@ -68,7 +71,13 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
-void				ft_free_split(char **vector);
 char				*get_next_line(int fd);
+
+char				*ft_vecnjoin(char **v, char *sep, int n);
+char				*ft_vecjoin(char **v, char *sep);
+void				ft_vecfree(char **v);
+size_t				ft_veclen(char **v);
+char				**ft_vecdup(char **v);
+void				ft_vecadd(char ***vec, char *str);
 
 #endif
