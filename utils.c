@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/19 17:37:34 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/20 15:51:52 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,28 @@ void	terminate(char *cmd, char *reason)
 	ft_putstr_fd("\n", 2);
 }
 
-int	here_doc(char *end, char *hint)
+char	*here_doc(char *end)
 {
 	char	*line;
-	int		tmp_file;
+	char	*str;
+	char	*tmp;
 
 	if (!end || !*end)
-		return (terminate(NULL,
-							"syntax error near unexpected token `newline'"),
-				-1);
-	tmp_file = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		return (terminate(NULL, HD_ERR), ft_strdup("ERR"));
+	str = ft_strdup("");
 	while (1)
 	{
-		line = readline(hint);
+		line = readline("> ");
 		if (!line || (ft_strlen(line) == ft_strlen(end) && !ft_strncmp(line,
-					end, ft_strlen(end))))
-		{
-			free(line);
-			break ;
-		}
-		ft_putendl_fd(line, tmp_file);
+					end, ft_strlen(end))) || ((*end == '"' || *end == '\'')
+					&& parse_quotes(line).end == *end))
+			return (free(line), str);
+		tmp = str;
+		str = ft_strjoin(str, ft_strjoin("\n", line));
+		free(tmp);
 		free(line);
-		line = NULL;
 	}
-	dup2(tmp_file, 0);
-	return (tmp_file);
+	return (str);
 }
 
 void	print_vec(char **vec)
@@ -61,40 +58,22 @@ void	print_vec(char **vec)
 	i = 0;
 	while (vec[i])
 	{
-		printf("[%s]\n", vec[i]);
+		printf("[%s] ", vec[i]);
 		i++;
 	}
+	printf("\n");
 }
 
-// void	find_pwd(t_builtin *bltin)
-// {
-// 	int	i;
+void	process(char *line, char **tokens, char **environ)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (bltin->env[i])
-// 	{
-// 		if (!ft_strncmp(bltin->env[i], "PWD=", 4))
-// 		{
-// 			bltin->pwd = ft_substr(bltin->env[i], 4, ft_strlen(bltin->env[i])
-// 					- 4);
-// 		}
-// 		if (!ft_strncmp(bltin->env[i], "OLDPWD=", 7))
-// 		{
-// 			bltin->oldpwd = ft_substr(bltin->env[i], 7, ft_strlen(bltin->env[i])
-// 					- 7);
-// 		}
-// 		i++;
-// 	}
-// }
-
-// void	get_env(char **envp)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		ft_putendl_fd(envp[i], STDOUT_FILENO);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	add_history(line);
+	while (tokens[i++])
+		tokens[i - 1] = parse(tokens[i - 1], ft_vecdup(environ));
+	run_pipes((int[2]){1, 2}, tokens, ft_veclen(tokens), environ);
+	free(line);
+	ft_vecfree(tokens);
+	write_history("~/.minishell_history");
+}

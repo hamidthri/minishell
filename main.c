@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:14:02 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/18 16:05:20 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/20 15:49:36 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	main(void)
 {
 	char		*line;
 	char		**tokens;
-	int			i;
 	extern char	**environ;
 
 	using_history();
@@ -81,17 +80,8 @@ int	main(void)
 			break ;
 		if (!*line)
 			continue ;
-		add_history(line);
 		tokens = ft_split(line, '|');
-		i = 0;
-		while (tokens[i++])
-			tokens[i - 1] = parse(tokens[i -1], environ);
-		run_pipes((int[2]){1, 2}, tokens, ft_veclen(tokens));
-		free(line);
-		ft_vecfree(tokens);
-		line = NULL;
-		tokens = NULL;
-		write_history("~/.minishell_history");
+		process(line, tokens, ft_vecdup(environ));
 	}
 	return (0);
 }
