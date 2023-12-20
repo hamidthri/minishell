@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:11:29 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/20 16:05:25 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/20 16:33:50 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ t_quote_parsed	parse_quotes(const char *s)
 	}
 	return (p);
 }
+
 static int	parse_heredoc(char **v, int i)
 {
 	char	*hd_str;

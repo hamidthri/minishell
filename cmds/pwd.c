@@ -6,13 +6,13 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:45:27 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/08 16:50:09 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/20 00:09:02 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	pwd_custom(t_builtin *bltin)
+void	ft_pwd(char **env)
 {
-	ft_putendl_fd(bltin->pwd, STDOUT_FILENO);
+	ft_putendl_fd(get_env(env, "PWD"), STDOUT_FILENO);
 }

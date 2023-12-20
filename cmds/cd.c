@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_custom.c                                        :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 18:22:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/11/30 18:34:01 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/20 00:57:48 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	new_path(t_builtin	*bltin)
+void	new_path(char **env)
 {
-	bltin->oldpwd = bltin->pwd;
-	bltin->pwd = getcwd(NULL, 0);
+	set_env(&env, "OLD_PWD", get_env(env, "PWD"));
+	set_env(&env, "PWD", getcwd(NULL, 0));
 }
 
-int	find_dir(t_builtin *bltin, char *s)
+int	find_dir(char **env, char *s)
 {
 	char	*dir;
 	int		i;
 	int		j;
 
 	i = 0;
-	while (bltin->env[i])
+	while (env[i])
 	{
-		if (!ft_strncmp(bltin->env[i], s, ft_strlen(s)))
-			dir = bltin->env[i] + ft_strlen(s);
+		if (!ft_strncmp(env[i], s, ft_strlen(s)))
+			dir = env[i] + ft_strlen(s);
 		i++;
 	}
 	j = chdir(dir);
@@ -41,38 +41,40 @@ int	find_dir(t_builtin *bltin, char *s)
 	return (j);
 }
 
-void	path_to_env(t_builtin *bltin)
+void	path_to_env(char **env)
 {
 	int		i;
 	char	*tmp;
 
 	i = 0;
-	while (bltin->env[i])
+	while (env[i])
 	{
-		if (!ft_strncmp(bltin->env[i], "PWD=", 4))
+		if (!ft_strncmp(env[i], "PWD=", 4))
 		{
-			tmp = ft_strjoin("PWD=", bltin->pwd);
-			free(bltin->env[i]);
-			bltin->env[i] = tmp;
+			tmp = ft_strjoin("PWD=", get_env(env, "PWD"));
+			// free(env[i]);
+			set_env(&env, env[i], tmp);
+			// env[i] = tmp;
 		}
-		if (!ft_strncmp(bltin->env[i], "OLDPWD=", 7))
+		if (!ft_strncmp(env[i], "OLDPWD=", 7))
 		{
-			tmp = ft_strjoin("OLDPWD=", bltin->oldpwd);
-			free(bltin->env[i]);
-			bltin->env[i] = tmp;
+			tmp = ft_strjoin("OLDPWD=", get_env(env, "PWD"));
+			// free(env[i]);
+			set_env(&env, env[i], tmp);
+			// env[i] = tmp;
 		}
 		i++;
 	}
 }
 
-int	cd_custom(t_builtin	*bltin, char *cmd_opt)
+void	ft_cd(char **env, char *cmd_opt)
 {
 	int		j;
 
 	if (!cmd_opt)
-		j = find_dir(bltin, "HOME=");
+		j = find_dir(env, "HOME=");
 	else if (!ft_strncmp(cmd_opt, "-", 1))
-		j = find_dir(bltin, "OLDPWD=");
+		j = find_dir(env, "OLDPWD=");
 	else
 	{
 		j = chdir(cmd_opt);
@@ -84,8 +86,7 @@ int	cd_custom(t_builtin	*bltin, char *cmd_opt)
 		}
 	}
 	if (j != 0)
-		return (EXIT_FAILURE);
-	new_path(bltin);
-	path_to_env(bltin);
-	return (EXIT_SUCCESS);
+		return ;
+	new_path(env);
+	path_to_env(env);
 }

@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 18:37:21 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/19 01:08:56 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/20 00:54:11 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int	find_equal(char *str)
 	while (str[i])
 	{
 		if (str[i] == '=')
-		{
 			return (i);
-		}
 		i++;
 	}
 	return (-1);
@@ -61,20 +59,19 @@ int	invalid_parameter(char *str)
 	return (EXIT_SUCCESS);
 }
 
-int	var_exist(t_builtin *bltin, char *str)
+int	var_exist(char **env, char *str)
 {
 	int	equal_index;
 	int	i;
 
 	equal_index = find_equal(str);
 	i = 0;
-	while (bltin->env[i])
+	while (env[i])
 	{
-		if (!strncmp(bltin->env[i], str, equal_index)
-			&& bltin->env[i][equal_index] == '=')
+		if (!ft_strncmp(env[i], str, equal_index)
+			&& env[i][equal_index] == '=')
 		{
-			free(bltin->env[i]);
-			bltin->env[i] = ft_strdup(str);
+			set_env(&env, env[i], str);
 			return (1);
 		}
 		i++;
@@ -82,86 +79,56 @@ int	var_exist(t_builtin *bltin, char *str)
 	return (0);
 }
 
-char	**add_all_variable(char **env, char **new_env, char *str)
-{
-	int	i;
+// char	**add_all_variable(char **env, char **new_env, char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (env[i])
-	{
-		new_env[i] = ft_strdup(env[i]);
-		if (new_env[i] == NULL)
-		{
-			free_all(new_env);
-			return (NULL);
-		}
-		i++;
-	}
-	new_env[i] = ft_strdup(str);
-	new_env[i + 1] = NULL;
-	return (new_env);
-}
+// 	i = 0;
+// 	while (env[i])
+// 	{
+// 		new_env[i] = ft_strdup(env[i]);
+// 		if (new_env[i] == NULL)
+// 		{
+// 			ft_vecfree(new_env);
+// 			return (NULL);
+// 		}
+// 		i++;
+// 	}
+// 	new_env[i] = ft_strdup(str);
+// 	new_env[i + 1] = NULL;
+// 	return (new_env);
+// }
 
-char	**add_var(char **arr, char *str)
-{
-	size_t			i;
-	char			**new_env;
-	t_quote_parsed	q;
-	int				f_des;
-	char			*line;
-	char			*map_str;
+// char	**add_var(char **arr, char *str)
+// {
+// 	size_t			i;
+// 	char			**new_env;
 
-	i = 0;
-	q = parse_quotes(str);
-	if (q.end)
-	{
-		here_doc(&q.end, q.hint);
-		f_des = open("tmp", O_RDONLY);
-		line = get_next_line(f_des);
-		map_str = ft_strjoin(q.str, line);
-		while (1)
-		{
-			line = get_next_line(f_des);
-			if (line)
-			{
-				map_str = ft_strjoin(map_str, line);
-				free(line);
-			}
-			else
-				break ;
-		}
-	}
-	else
-		map_str = str;
-	while (arr[i] != NULL)
-		i++;
-	new_env = ft_calloc(i + 2, sizeof(char *));
-	if (!new_env)
-		return (NULL);
-	new_env = add_all_variable(arr, new_env, map_str);
-	return (new_env);
-}
+// 	i = 0;
+// 	while (arr[i] != NULL)
+// 		i++;
+// 	new_env = ft_calloc(i + 2, sizeof(char *));
+// 	if (!new_env)
+// 		return (NULL);
+// 	new_env = add_all_variable(arr, new_env, str);
+// 	return (new_env);
+// }
 
-int	custom_export(t_builtin *bltin, char **str)
+void	ft_export(char **env, char **str)
 {
 	int		i;
 	char	**tmp;
 
 	if (!str[1] || str[1][0] == '\0')
-		return (EXIT_FAILURE);
+		return ;
 	i = 1;
 	while (str[i])
 	{
-		if (!invalid_parameter(str[i]) && !var_exist(bltin, str[i]))
+		if (!invalid_parameter(str[i]) && !var_exist(env, str[i]))
 		{
-			tmp = add_var(bltin->env, str[i]);
-			if (tmp)
-			{
-				free_all(bltin->env);
-				bltin->env = tmp;
-			}
+			tmp = ft_split(str[i], '=');
+			set_env(&env, tmp[0], tmp[1]);
 		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
 }

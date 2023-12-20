@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/12/20 15:51:52 by mmomeni          ###   ########.fr       */
+=======
+/*   Updated: 2023/12/19 18:15:53 by htaheri          ###   ########.fr       */
+>>>>>>> 088592e997c0706f8ca5a8f4f2a3789984a745ac
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +38,14 @@ char	*here_doc(char *end)
 	char	*tmp;
 
 	if (!end || !*end)
+<<<<<<< HEAD
 		return (terminate(NULL, HD_ERR), ft_strdup("ERR"));
 	str = ft_strdup("");
+=======
+		return (terminate(NULL, "syntax error near unexpected token `newline'"),
+			-1);
+	tmp_file = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+>>>>>>> 088592e997c0706f8ca5a8f4f2a3789984a745ac
 	while (1)
 	{
 		line = readline("> ");
@@ -63,6 +73,7 @@ void	print_vec(char **vec)
 	}
 	printf("\n");
 }
+<<<<<<< HEAD
 
 void	process(char *line, char **tokens, char **environ)
 {
@@ -77,3 +88,5 @@ void	process(char *line, char **tokens, char **environ)
 	ft_vecfree(tokens);
 	write_history("~/.minishell_history");
 }
+=======
+>>>>>>> 088592e997c0706f8ca5a8f4f2a3789984a745ac
