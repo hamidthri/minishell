@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 20:44:49 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/14 22:25:38 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/20 13:13:48 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@ char	*ft_strrepl(char *src, char *old, char *new)
 {
 	char	*tmp;
 	char	*spot;
-	int		wlen;
 	char	*res;
 
-	wlen = ft_strlen(old);
 	spot = ft_strnstr(src, old, ft_strlen(src));
 	if (!spot)
 		return (ft_strdup(src));
-	tmp = ft_calloc(ft_strlen(src) + (ft_strlen(new) - wlen) + 1, sizeof(char));
+	tmp = ft_calloc(ft_strlen(src) + (ft_strcount(src, old) * (ft_strlen(new)
+					- ft_strlen(old))) + 1, sizeof(char));
 	res = tmp;
 	while (*src)
 	{
@@ -31,9 +30,10 @@ char	*ft_strrepl(char *src, char *old, char *new)
 			*tmp++ = *src++;
 		else
 		{
-			while (*new)
-				*tmp++ = *new ++;
-			src += wlen;
+			ft_strcpy(tmp, new);
+			tmp += ft_strlen(new);
+			src += ft_strlen(old);
+			spot = ft_strnstr(src, old, ft_strlen(src));
 		}
 	}
 	return (res);
