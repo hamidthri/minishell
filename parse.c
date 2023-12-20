@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:11:29 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/19 17:32:15 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/20 16:05:25 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ t_quote_parsed	parse_quotes(const char *s)
 	ij[1] = 0;
 	p.str = ft_calloc(strlen(s) + 1, sizeof(char));
 	p.end = 0;
-	p.hint = ft_strdup("quote> ");
 	while (s[++ij[0]])
 	{
 		if (s[ij[0]] == '\'' || s[ij[0]] == '"')
@@ -86,28 +85,37 @@ t_quote_parsed	parse_quotes(const char *s)
 		else
 			p.str[ij[1]++] = s[ij[0]];
 	}
-	if (p.end == '"')
-		p.hint = ft_strdup("dquote> ");
 	return (p);
 }
 static int	parse_heredoc(char **v, int i)
 {
-	t_quote_parsed	p;
-	int				hd_err;
+	char	*hd_str;
+	char	*end;
 
-	p = parse_quotes(v[i]);
-	hd_err = 0;
-	if (p.end)
-		hd_err = here_doc((char[2]){p.end, 0}, p.hint);
+	hd_str = NULL;
+	end = NULL;
+	// Single quotes
+	if (parse_quotes(v[i]).end)
+		end = (char[2]){parse_quotes(v[i]).end, 0};
+	// -----------------------------------------------
+	// Here-docs (it is different from the single quotes.
 	else if ((ft_strlen(v[i]) == 2 && !ft_strncmp(v[i], "<<", 2)))
-		hd_err = here_doc(v[i + 1], "heredoc> ");
+		end = v[i + 1];
 	else if (ft_strnstr(v[i], "<<", ft_strlen(v[i])))
-		hd_err = here_doc(ft_strchr(v[i], '<') + 2, "heredoc> ");
-	if (hd_err == -1)
-		return (2);
-	if (!hd_err)
-		return (0);
-	return (1);
+		end = ft_strchr(v[i], '<') + 2;
+	// -----------------------------------------------
+	if (end)
+		hd_str = here_doc(end);
+	if (hd_str)
+	{
+		if (!ft_strcmp(hd_str, "ERR"))
+			return (2);
+		print_vec(v);
+		v[i] = ft_strrepl(v[i], "<", "");
+		v[i] = ft_strrepl(v[i], end, hd_str);
+		free(hd_str);
+	}
+	return (0);
 }
 
 char	*parse(char *s, char **env)
@@ -124,7 +132,6 @@ char	*parse(char *s, char **env)
 	v = ft_split(s, ' ');
 	parse_env_vars(v, env);
 	in[1] = ft_veclen(v);
-	dprintf(2, "in[1]: %d\n", in[1]);
 	while (v[in[0]++])
 	{
 		hd = parse_heredoc(v, in[0] - 1);
@@ -132,7 +139,6 @@ char	*parse(char *s, char **env)
 		dprintf(2, "hd: %d, rd: %d\n", hd, rd);
 		in[1] -= hd + rd;
 	}
-	dprintf(2, "in[1]: %d\n", in[1]);
 	tmp = ft_vecnjoin(v, " ", in[1]);
 	tmp2 = ft_strtrim(tmp, " ");
 	tmp3 = ft_strrmchr(tmp2, "\\;\"'");
