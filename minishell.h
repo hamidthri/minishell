@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/12/20 15:34:15 by mmomeni          ###   ########.fr       */
-=======
-/*   Updated: 2023/12/20 00:05:57 by htaheri          ###   ########.fr       */
->>>>>>> 088592e997c0706f8ca5a8f4f2a3789984a745ac
+/*   Updated: 2023/12/21 17:09:00 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +29,7 @@
 
 void			process(char *line, char **tokens, char **environ);
 
-void			run_pipes(int fd[2], char **commands, int n, char **env);
+void			run_pipes(char **commands, int n, char **env);
 void			terminate(char *cmd, char *reason);
 
 char			*get_env(char **env, char *key);
@@ -53,12 +49,12 @@ typedef struct s_quote_parsed
 t_quote_parsed	parse_quotes(const char *s);
 
 /* Builtins */
-void			ft_echo(char **v);
-void			ft_cd(char **v, char **env);
-void			ft_pwd(void);
-void			ft_export(char **v, char **env);
-void			ft_unset(char **v, char **env);
-void			ft_env(char **env);
-void			ft_exit(char **v);
+// void			ft_echo(char **v);
+// void			ft_cd(char **v, char **env);
+// void			ft_pwd(void);
+// void			ft_export(char **v, char **env);
+// void			ft_unset(char **v, char **env);
+// void			ft_env(char **env);
+// void			ft_exit(char **v);
 
 #endif
