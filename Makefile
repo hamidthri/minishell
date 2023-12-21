@@ -3,19 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+         #
+#    By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 16:21:20 by mmomeni           #+#    #+#              #
-#    Updated: 2023/12/20 18:06:56 by mmomeni          ###   ########.fr        #
+#    Updated: 2023/12/21 22:04:56 by htaheri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME=		minishell
 CFLAGS=		 -Wall -Wextra -Werror -fsanitize=address -g -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
-CMDS= 		cmds/cd.c cmds/echo.c cmds/exit.c cmds/export.c cmds/pwd.c cmds/unset.c
+CMDS= 		cmds/cd.c cmds/echo.c cmds/exit.c cmds/export.c
 FUNC=		env.c system.c parse.c utils.c
-SRCS=		main.c $(FUNC)
+SRCS=		main.c $(FUNC) $(CMDS)
 LIBFT_DIR=	libft
 LIBFT=		$(LIBFT_DIR)/libft.a
 
