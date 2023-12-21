@@ -6,11 +6,13 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:11:29 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/20 16:33:50 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/21 18:10:12 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int		g_fd[2];
 
 static int	parse_redirect(char **v, int i)
 {
@@ -18,18 +20,24 @@ static int	parse_redirect(char **v, int i)
 	{
 		if (v[i][0] == '<')
 		{
-			if (open(v[i + 1], O_RDONLY) < 0)
+			g_fd[0] = open(v[i + 1], O_RDONLY);
+			if (g_fd < 0)
 				return (terminate(v[i + 1], NULL), 1);
-			dup2(open(v[i + 1], O_RDONLY), 0);
+			v[i] = ft_strrepl(v[i], "<", "");
+			v[i + 1] = ft_strrepl(v[i + 1], v[i + 1], "");
 		}
 		else if (v[i][0] == '>')
-			dup2(open(v[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644), 1);
-		return (2);
+		{
+			g_fd[1] = open(v[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			v[i] = ft_strrepl(v[i], ">", "");
+		}
+		v[i + 1] = ft_strrepl(v[i + 1], v[i + 1], "");
 	}
 	else if (ft_strlen(v[i]) == 2 && !ft_strncmp(v[i], ">>", 2))
 	{
-		dup2(open(v[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644), 1);
-		return (2);
+		g_fd[1] = open(v[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		v[i] = ft_strrepl(v[i], ">>", "");
+		v[i + 1] = ft_strrepl(v[i + 1], v[i + 1], "");
 	}
 	return (0);
 }
@@ -135,10 +143,8 @@ char	*parse(char *s, char **env)
 	in[1] = ft_veclen(v);
 	while (v[in[0]++])
 	{
-		hd = parse_heredoc(v, in[0] - 1);
 		rd = parse_redirect(v, in[0] - 1);
-		dprintf(2, "hd: %d, rd: %d\n", hd, rd);
-		in[1] -= hd + rd;
+		hd = parse_heredoc(v, in[0] - 1);
 	}
 	tmp = ft_vecnjoin(v, " ", in[1]);
 	tmp2 = ft_strtrim(tmp, " ");

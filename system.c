@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   system.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:16:48 by mmomeni           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/12/20 16:08:25 by mmomeni          ###   ########.fr       */
-=======
-/*   Updated: 2023/12/20 00:53:59 by htaheri          ###   ########.fr       */
->>>>>>> 088592e997c0706f8ca5a8f4f2a3789984a745ac
+/*   Updated: 2023/12/21 18:09:03 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			g_fd[2] = {0, 1};
 
 static void	run_builtin(char **v, char **env)
 {
@@ -23,13 +21,13 @@ static void	run_builtin(char **v, char **env)
 	// else if (!ft_strcmp(v[0], "cd"))
 	// 	ft_cd(v, env);
 	// else if (!ft_strcmp(v[0], "pwd"))
-	// 	ft_pwd();
+	// 	ft_putendl_fd(get_env(env, "PWD"), 1);
 	// else if (!ft_strcmp(v[0], "export"))
 	// 	ft_export(v, env);
 	// else if (!ft_strcmp(v[0], "unset"))
-	// 	ft_unset(v, env);
+	// 	set_env(&env, v[1], NULL);
 	// else if (!ft_strcmp(v[0], "env"))
-	// 	ft_env(env);
+	// 	print_vec(env);
 	// else if (!ft_strcmp(v[0], "exit"))
 	// 	ft_exit(v);
 	(void)env;
@@ -63,48 +61,70 @@ static void	run(char *s, char **env)
 	ft_vecfree(v);
 }
 
-void	run_pipes(int fd[2], char **commands, int n, char **env)
+void	pipe_child( int d[2], int pipefd[2], char *cmd, char **env)
 {
-	int	i;
-	int	pid;
-	int	status;
+	int	is_not_last;
 	int	in_fd;
 
-	i = 0;
-	in_fd = 0;
-	while (i < n)
+	is_not_last = d[0];
+	in_fd = d[1];
+	if (in_fd != 0)
+	{
+		dup2(in_fd, 0);
+		close(in_fd);
+	}
+	if (is_not_last)
+	{
+		dup2(pipefd[1], 1);
+		close(pipefd[1]);
+	}
+	else if (g_fd[1] != 1)
+		dup2(g_fd[1], 1);
+	run(cmd, env);
+}
+
+void	pipe_parent(int *d[3], int pipefd[2], pid_t pid, int *status)
+{
+	int	i;
+	int	n;
+	int	*in_fd;
+
+	i = *d[0];
+	n = *d[1];
+	in_fd = d[2];
+	if (*in_fd != g_fd[0])
+		close(*in_fd);
+	if (i < n - 1)
+	{
+		close(pipefd[1]);
+		*in_fd = pipefd[0];
+	}
+	waitpid(pid, status, 0);
+	if (i == n - 1 && g_fd[1] != 1)
+		close(g_fd[1]);
+}
+
+void	run_pipes(char **commands, int n, char **env)
+{
+	pid_t	pid;
+	int		pipefd[2];
+	int		i;
+	int		in_fd;
+	int		status;
+
+	i = -1;
+	in_fd = g_fd[0];
+	while (++i < n)
 	{
 		if (i < n - 1)
-			pipe(fd);
+			pipe(pipefd);
 		pid = fork();
 		if (pid == 0)
-		{
-			if (in_fd != 0)
-			{
-				dup2(in_fd, 0);
-				close(in_fd);
-			}
-			if (i < n - 1)
-			{
-				close(fd[0]);
-				dup2(fd[1], 1);
-				close(fd[1]);
-			}
-			run(commands[i], env);
-			exit(EXIT_FAILURE);
-		}
+			pipe_child((int[2]){i < n - 1, in_fd}, pipefd, commands[i], env);
 		else
-		{
-			if (in_fd != 0)
-				close(in_fd);
-			if (i < n - 1)
-			{
-				close(fd[1]);
-				in_fd = fd[0];
-			}
-			waitpid(pid, &status, 0);
-			set_env(&env, "?", ft_itoa(status));
-		}
-		i++;
+			pipe_parent((int *[3]){&i, &n, &in_fd}, pipefd, pid, &status);
 	}
+	while (i--)
+		wait(&status);
+	set_env(&env, "?", ft_itoa(status));
 }
