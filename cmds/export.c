@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 18:37:21 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/21 22:51:06 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/22 19:48:22 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	var_exist(char **env, char *str)
 	return (0);
 }
 
-void	ft_export(char **str, char **env)
+void	ft_export(char **str, char ***env)
 {
 	int		i;
 	char	**tmp;
@@ -89,10 +89,10 @@ void	ft_export(char **str, char **env)
 	i = 1;
 	while (str[i])
 	{
-		if (!invalid_parameter(str[i]) && !var_exist(env, str[i]))
+		if (!invalid_parameter(str[i]) && !var_exist(*env, str[i]))
 		{
 			tmp = ft_split(str[i], '=');
-			set_env(&env, tmp[0], tmp[1]);
+			set_env(env, tmp[0], tmp[1]);
 		}
 		i++;
 	}

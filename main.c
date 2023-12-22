@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:14:02 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/20 15:49:36 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/22 19:57:56 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(void)
 	char		*line;
 	char		**tokens;
 	extern char	**environ;
+	char ** vv = ft_vecdup(environ);
 
 	using_history();
 	rl_bind_keyseq("\\e[A", &h_up);
@@ -81,7 +82,7 @@ int	main(void)
 		if (!*line)
 			continue ;
 		tokens = ft_split(line, '|');
-		process(line, tokens, ft_vecdup(environ));
+		process(line, tokens, &vv);
 	}
 	return (0);
 }

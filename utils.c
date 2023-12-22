@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/22 19:39:09 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/22 20:01:26 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,15 @@ void	print_vec(char **vec)
 	}
 }
 
-void	process(char *line, char **tokens, char **environ)
+void	process(char *line, char **tokens, char ***env)
 {
 	int	i;
 
 	i = 0;
 	add_history(line);
 	while (tokens[i++])
-		tokens[i - 1] = parse(tokens[i - 1], ft_vecdup(environ));
-	run_pipes(tokens, ft_veclen(tokens), environ);
+		tokens[i - 1] = parse(tokens[i - 1], *env);
+	run_pipes(tokens, ft_veclen(tokens), env);
 	free(line);
 	ft_vecfree(tokens);
 	write_history("~/.minishell_history");

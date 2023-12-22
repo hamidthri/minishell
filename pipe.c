@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:16:48 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/22 19:39:14 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/22 20:06:35 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 
 int			g_fd[2] = {0, 1};
 
-static void	run_builtin(char **v, char **env)
+static void	run_builtin(char **v, char ***env)
 {
 	if (!ft_strcmp(v[0], "echo"))
 		ft_echo(v);
 	else if (!ft_strcmp(v[0], "cd"))
 		ft_cd(v, env);
 	else if (!ft_strcmp(v[0], "pwd"))
-		ft_putendl_fd(get_env(env, "PWD"), 1);
+		ft_putendl_fd(get_env(*env, "PWD"), 1);
 	else if (!ft_strcmp(v[0], "export"))
 		ft_export(v, env);
 	else if (!ft_strcmp(v[0], "unset"))
-		set_env(&env, v[1], NULL);
+		set_env(env, v[1], NULL);
 	else if (!ft_strcmp(v[0], "env"))
-		print_vec(env);
+		print_vec(*env);
 	else if (!ft_strcmp(v[0], "exit"))
 		ft_exit(v);
-	(void)env;
 	free(v);
 }
 
-static void	run(char *s, char **env)
+static void	run(char *s, char ***env)
 {
 	char	*file;
 	char	**v;
@@ -58,7 +57,7 @@ static void	run(char *s, char **env)
 	ft_vecfree(v);
 }
 
-void	pipe_child( int d[2], int pipefd[2], char *cmd, char **env)
+void	pipe_child( int d[2], int pipefd[2], char *cmd, char ***env)
 {
 	int	is_not_last;
 	int	in_fd;
@@ -100,7 +99,7 @@ void	pipe_parent(int *d[3], int pipefd[2])
 		close(g_fd[1]);
 }
 
-void	run_pipes(char **commands, int n, char **env)
+void	run_pipes(char **commands, int n, char ***env)
 {
 	int		pipefd[2];
 	int		i;
@@ -120,5 +119,5 @@ void	run_pipes(char **commands, int n, char **env)
 	}
 	while (i--)
 		wait(&status);
-	set_env(&env, "?", ft_itoa(WEXITSTATUS(status)));
+	set_env(env, "?", ft_itoa(WEXITSTATUS(status)));
 }

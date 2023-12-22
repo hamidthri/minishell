@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/21 19:35:40 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/22 20:05:49 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 
 # define HD_ERR "syntax error near unexpected token `newline'"
 
-void			process(char *line, char **tokens, char **environ);
+void			process(char *line, char **tokens, char ***env);
 
-void			run_pipes(char **commands, int n, char **env);
+void			run_pipes(char **commands, int n, char ***env);
 void			terminate(char *cmd, char *reason);
 
 char			*get_env(char **env, char *key);
@@ -50,9 +50,9 @@ t_quote_parsed	parse_quotes(const char *s);
 
 /* Builtins */
 void			ft_echo(char **v);
-void			ft_cd(char **v, char **env);
+void			ft_cd(char **v, char ***env);
 // void			ft_pwd(void);
-void			ft_export(char **v, char **env);
+void			ft_export(char **v, char ***env);
 // void			ft_unset(char **v, char **env);
 void			ft_env(char **env);
 void			ft_exit(char **v);
