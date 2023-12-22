@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 18:37:21 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/20 00:54:11 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/21 22:51:06 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,42 +79,7 @@ int	var_exist(char **env, char *str)
 	return (0);
 }
 
-// char	**add_all_variable(char **env, char **new_env, char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		new_env[i] = ft_strdup(env[i]);
-// 		if (new_env[i] == NULL)
-// 		{
-// 			ft_vecfree(new_env);
-// 			return (NULL);
-// 		}
-// 		i++;
-// 	}
-// 	new_env[i] = ft_strdup(str);
-// 	new_env[i + 1] = NULL;
-// 	return (new_env);
-// }
-
-// char	**add_var(char **arr, char *str)
-// {
-// 	size_t			i;
-// 	char			**new_env;
-
-// 	i = 0;
-// 	while (arr[i] != NULL)
-// 		i++;
-// 	new_env = ft_calloc(i + 2, sizeof(char *));
-// 	if (!new_env)
-// 		return (NULL);
-// 	new_env = add_all_variable(arr, new_env, str);
-// 	return (new_env);
-// }
-
-void	ft_export(char **env, char **str)
+void	ft_export(char **str, char **env)
 {
 	int		i;
 	char	**tmp;
@@ -132,3 +97,4 @@ void	ft_export(char **env, char **str)
 		i++;
 	}
 }
+

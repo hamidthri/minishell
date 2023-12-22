@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:16:48 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/22 19:28:47 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/22 19:39:14 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,20 @@ int			g_fd[2] = {0, 1};
 
 static void	run_builtin(char **v, char **env)
 {
-	// if (!ft_strcmp(v[0], "echo"))
-	// 	ft_echo(v);
-	// else if (!ft_strcmp(v[0], "cd"))
-	// 	ft_cd(v, env);
-	// else if (!ft_strcmp(v[0], "pwd"))
-	// 	ft_putendl_fd(get_env(env, "PWD"), 1);
-	// else if (!ft_strcmp(v[0], "export"))
-	// 	ft_export(v, env);
-	// else if (!ft_strcmp(v[0], "unset"))
-	// 	set_env(&env, v[1], NULL);
-	// else if (!ft_strcmp(v[0], "env"))
-	// 	print_vec(env);
-	// else if (!ft_strcmp(v[0], "exit"))
-	// 	ft_exit(v);
+	if (!ft_strcmp(v[0], "echo"))
+		ft_echo(v);
+	else if (!ft_strcmp(v[0], "cd"))
+		ft_cd(v, env);
+	else if (!ft_strcmp(v[0], "pwd"))
+		ft_putendl_fd(get_env(env, "PWD"), 1);
+	else if (!ft_strcmp(v[0], "export"))
+		ft_export(v, env);
+	else if (!ft_strcmp(v[0], "unset"))
+		set_env(&env, v[1], NULL);
+	else if (!ft_strcmp(v[0], "env"))
+		print_vec(env);
+	else if (!ft_strcmp(v[0], "exit"))
+		ft_exit(v);
 	(void)env;
 	free(v);
 }

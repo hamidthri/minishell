@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 18:24:06 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/19 18:31:16 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/21 19:49:32 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ void	exit_code(char *str)
 	exit (code);
 }
 
-void	ft_exit(char **str)
+void	ft_exit(char **vec)
 {
-	ft_putendl_fd("exit", STDERR_FILENO);
-	exit_code(str[1]);
+	exit_code(vec[1]);
 }

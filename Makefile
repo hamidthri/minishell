@@ -6,16 +6,16 @@
 #    By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 16:21:20 by mmomeni           #+#    #+#              #
-#    Updated: 2023/12/22 17:19:22 by mmomeni          ###   ########.fr        #
+#    Updated: 2023/12/22 19:39:44 by mmomeni          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME=		minishell
 CFLAGS=		 -Wall -Wextra -Werror -fsanitize=address -g -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
-CMDS= 		cmds/cd.c cmds/echo.c cmds/exit.c cmds/export.c cmds/pwd.c cmds/unset.c
+CMDS= 		cmds/cd.c cmds/echo.c cmds/exit.c cmds/export.c
 FUNC=		env.c pipe.c parse.c utils.c
-SRCS=		main.c $(FUNC)
+SRCS=		main.c $(FUNC) $(CMDS)
 LIBFT_DIR=	libft
 LIBFT=		$(LIBFT_DIR)/libft.a
 
