@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 18:22:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/22 20:09:57 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/22 23:50:46 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,48 +24,29 @@ int	find_dir(char ***env, char *s)
 	int		i;
 	int		j;
 
+	dir = NULL;
 	i = 0;
-	while (*env[i])
+	while ((*env)[i])
 	{
-		if (!ft_strncmp(*env[i], s, ft_strlen(s)))
-			dir = *env[i] + ft_strlen(s);
+		if (!ft_strncmp((*env)[i], s, ft_strlen(s)))
+		{
+			dir = ft_strdup((*env)[i] + ft_strlen(s));
+			break ;
+		}
 		i++;
 	}
+	if (dir == NULL)
+		return (terminate(s, "not found"), -1);
 	j = chdir(dir);
 	if (j != 0)
-	{
-		ft_putstr_fd(s, STDERR_FILENO);
-		ft_putstr_fd("Not Found", STDERR_FILENO);
-		perror(" ");
-	}
+		perror("chdir failed");
+	free(dir);
 	return (j);
-}
-
-void	path_to_env(char ***env)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (env[i])
-	{
-		if (!ft_strncmp(*env[i], "PWD=", 4))
-		{
-			tmp = ft_strjoin("PWD=", get_env(*env, "PWD="));
-			set_env(env, *env[i], tmp);
-		}
-		if (!ft_strncmp(*env[i], "OLDPWD=", 7))
-		{
-			tmp = ft_strjoin("OLDPWD=", get_env(*env, "OLDPWD="));
-			set_env(env, *env[i], tmp);
-		}
-		i++;
-	}
 }
 
 void	ft_cd(char **vec, char ***env)
 {
-	int		j;
+	int	j;
 
 	if (!vec[1])
 		j = find_dir(env, "HOME=");
@@ -75,14 +56,10 @@ void	ft_cd(char **vec, char ***env)
 	{
 		j = chdir(vec[1]);
 		if (j != 0)
-		{
-			ft_putstr_fd("MiniShell: ", STDERR_FILENO);
-			ft_putstr_fd(vec[1], STDERR_FILENO);
-			perror(" ");
-		}
+			terminate("cd", "No such file or directory");
+
 	}
 	if (j != 0)
 		return ;
 	new_path(env);
-	path_to_env(env);
 }

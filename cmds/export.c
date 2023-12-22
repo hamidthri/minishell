@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 18:37:21 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/22 19:48:22 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/22 23:46:48 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,6 @@ int	find_equal(char *str)
 	return (-1);
 }
 
-int	error_handle(char *str)
-{
-	ft_putstr_fd("Minishell: export: ", STDERR_FILENO);
-	if (str)
-	{
-		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-	}
-	ft_putstr_fd("is not a valid identifier\n", STDERR_FILENO);
-	return (EXIT_FAILURE);
-}
-
 int	valid_identifier(char c)
 {
 	return (ft_strchr("|<>[],.:/{}/+^%#@!~=-?&*", c) != NULL);
@@ -48,12 +36,12 @@ int	invalid_parameter(char *str)
 	int	i;
 
 	if (ft_isdigit(str[0]) || str[0] == '=' || find_equal(str) == -1)
-		return (error_handle(str));
+		return (terminate("export", "is not a valid identifier"), 1);
 	i = 0;
 	while (str[i] != '=')
 	{
 		if (valid_identifier(str[i]))
-			return (error_handle(str));
+			return (terminate("export", "is not a valid identifier"), 1);
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -79,19 +67,21 @@ int	var_exist(char **env, char *str)
 	return (0);
 }
 
-void	ft_export(char **str, char ***env)
+void	ft_export(char **vec, char ***env)
 {
 	int		i;
 	char	**tmp;
 
-	if (!str[1] || str[1][0] == '\0')
+	if (!vec[1] || vec[1][0] == '\0')
 		return ;
 	i = 1;
-	while (str[i])
+	while (vec[i])
 	{
-		if (!invalid_parameter(str[i]) && !var_exist(*env, str[i]))
+		tmp = ft_split(vec[i], '=');
+		if (!invalid_parameter(vec[i]) && !var_exist(*env, tmp[0]))
 		{
-			tmp = ft_split(str[i], '=');
+			if (!tmp[1])
+				tmp[1] = ft_strdup("");
 			set_env(env, tmp[0], tmp[1]);
 		}
 		i++;
