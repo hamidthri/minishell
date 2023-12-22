@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   system.c                                           :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:16:48 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/21 18:09:03 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/22 19:28:47 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,14 @@ static void	run(char *s, char **env)
 	v = ft_split(s, ' ');
 	if (!v || !*v)
 		return ;
+	if (ft_vecget(builtins, v[0]))
+		return (run_builtin(v, env));
 	if (v[0][0] == '/')
 		file = ft_strdup(v[0]);
 	else
 		file = get_path(v[0]);
 	if (!file)
-	{
-		if (ft_vecget(builtins, v[0]))
-			return (run_builtin(v, env));
-		else
-			return (terminate(v[0], "command not found"));
-	}
+		return (terminate(v[0], "command not found"));
 	if (execve(file, v, NULL) < 0)
 		terminate(file, NULL);
 	free(file);
@@ -83,7 +80,7 @@ void	pipe_child( int d[2], int pipefd[2], char *cmd, char **env)
 	run(cmd, env);
 }
 
-void	pipe_parent(int *d[3], int pipefd[2], pid_t pid, int *status)
+void	pipe_parent(int *d[3], int pipefd[2])
 {
 	int	i;
 	int	n;
@@ -99,14 +96,12 @@ void	pipe_parent(int *d[3], int pipefd[2], pid_t pid, int *status)
 		close(pipefd[1]);
 		*in_fd = pipefd[0];
 	}
-	waitpid(pid, status, 0);
 	if (i == n - 1 && g_fd[1] != 1)
 		close(g_fd[1]);
 }
 
 void	run_pipes(char **commands, int n, char **env)
 {
-	pid_t	pid;
 	int		pipefd[2];
 	int		i;
 	int		in_fd;
@@ -118,13 +113,12 @@ void	run_pipes(char **commands, int n, char **env)
 	{
 		if (i < n - 1)
 			pipe(pipefd);
-		pid = fork();
-		if (pid == 0)
+		if (fork() == 0)
 			pipe_child((int[2]){i < n - 1, in_fd}, pipefd, commands[i], env);
 		else
-			pipe_parent((int *[3]){&i, &n, &in_fd}, pipefd, pid, &status);
+			pipe_parent((int *[3]){&i, &n, &in_fd}, pipefd);
 	}
 	while (i--)
 		wait(&status);
-	set_env(&env, "?", ft_itoa(status));
+	set_env(&env, "?", ft_itoa(WEXITSTATUS(status)));
 }
