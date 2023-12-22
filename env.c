@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:21:57 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/17 22:11:09 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/22 20:16:42 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	set_env(char ***env, char *key, char *value)
 {
 	int	i;
 
+	if (!key || !*key)
+		return ;
 	i = 0;
 	while ((*env)[i])
 	{
