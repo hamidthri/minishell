@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/21 17:09:21 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/22 19:08:55 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ char	*here_doc(char *end)
 	{
 		line = readline("> ");
 		if (!line || (ft_strlen(line) == ft_strlen(end) && !ft_strncmp(line,
-					end, ft_strlen(end))) || ((*end == '"' || *end == '\'')
-					&& parse_quotes(line).end == *end))
+					end, ft_strlen(end))))
 			return (free(line), str);
 		tmp = str;
 		str = ft_strjoin(str, ft_strjoin("\n", line));
+		if (((*end == '"' || *end == '\'') && parse_quotes(line).end == *end))
+			return (ft_substr(str, 0, ft_strchr(str, *end) - str));
 		free(tmp);
 		free(line);
 	}
