@@ -1,5 +1,6 @@
 minishell
 .tmp
+.DS_Store
 test.c
 
 # Prerequisites
