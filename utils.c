@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/23 17:55:47 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/23 18:01:47 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*here_doc(char *end)
 	char	*tmp;
 
 	if (!end || !*end)
-		return (terminate(NULL, HD_ERR), ft_strdup("ERR"));
+		return (terminate(NULL, ERR_HD), ft_strdup("ERR"));
 	str = ft_strdup("");
 	while (1)
 	{
