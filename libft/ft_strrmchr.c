@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 20:19:57 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/17 20:49:28 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/23 16:45:03 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strrmchr(char *str, char *set)
 	int		j;
 	char	*new;
 
+	if (!str)
+		return (NULL);
 	i = 0;
 	j = 0;
 	new = malloc(sizeof(char) * (ft_strlen(str) + 1));

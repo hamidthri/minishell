@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/23 19:02:31 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/23 19:32:14 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*here_doc(char *end)
 	char	*tmp;
 
 	if (!end || !*end)
-		return (terminate(NULL, HD_ERR), ft_strdup("ERR"));
+		return (terminate(NULL, ERR_HD), ft_strdup("ERR"));
 	str = ft_strdup("");
 	while (1)
 	{
@@ -95,7 +95,7 @@ void	process(char *line, char **tokens, char ***env)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	add_history(line);
 	while (tokens[i++])
 		tokens[i - 1] = parse(tokens[i - 1], *env);

@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/22 20:15:21 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/23 18:01:33 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-# define HD_ERR "syntax error near unexpected token `newline'"
+# define ERR_HD "syntax error near unexpected token `newline'"
 
 void			process(char *line, char **tokens, char ***env);
 
