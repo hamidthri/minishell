@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 18:22:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/22 23:50:46 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/23 03:36:22 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	ft_cd(char **vec, char ***env)
 		j = chdir(vec[1]);
 		if (j != 0)
 			terminate("cd", "No such file or directory");
-
 	}
 	if (j != 0)
 		return ;

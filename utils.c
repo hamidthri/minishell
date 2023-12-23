@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/22 20:01:26 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/23 19:02:31 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,32 @@ void	print_vec(char **vec)
 	}
 }
 
+void	ft_echo(char **vec)
+{
+	int				i;
+	int				flag;
+
+	i = 1;
+	flag = 0;
+	if (vec[1])
+	{
+		while (vec[i] && (ft_strncmp(vec[i], "-n", 2) == 0
+				&& ft_strlen(vec[i]) == 2))
+		{
+			flag = 1;
+			i++;
+		}
+	}
+	while (vec[i])
+	{
+		ft_putstr_fd(vec[i++], STDOUT_FILENO);
+		if (vec[i])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+	}
+	if (!flag)
+		ft_putstr_fd("\n", STDOUT_FILENO);
+}
+
 void	process(char *line, char **tokens, char ***env)
 {
 	int	i;
@@ -73,6 +99,8 @@ void	process(char *line, char **tokens, char ***env)
 	add_history(line);
 	while (tokens[i++])
 		tokens[i - 1] = parse(tokens[i - 1], *env);
+	if (!ft_strncmp(line, "exit ", 5))
+		ft_exit(tokens);
 	run_pipes(tokens, ft_veclen(tokens), env);
 	free(line);
 	ft_vecfree(tokens);

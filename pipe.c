@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:16:48 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/22 20:06:35 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/23 18:23:59 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ static void	run_builtin(char **v, char ***env)
 		set_env(env, v[1], NULL);
 	else if (!ft_strcmp(v[0], "env"))
 		print_vec(*env);
-	else if (!ft_strcmp(v[0], "exit"))
-		ft_exit(v);
 	free(v);
 }
 

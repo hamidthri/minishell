@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 18:24:06 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/22 23:00:15 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/23 19:19:50 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,15 @@ void	exit_code(char *str)
 
 	if (!str)
 		code = 0;
-	else if (is_all_digit(str))
-		code = ft_atoi(str);
+	else if (is_all_digit(str + 4))
+		code = ft_atoi(str + 4);
 	else
-	{
-		ft_putendl_fd("exit: ", STDERR_FILENO);
-		ft_putendl_fd(str, STDERR_FILENO);
-		ft_putendl_fd("Not a numeric argument", STDERR_FILENO);
 		code = 255;
-	}
 	exit(code);
 }
 
 void	ft_exit(char **vec)
 {
-	ft_putendl_fd("exit", STDERR_FILENO);
-	exit_code(vec[1]);
+	ft_putendl_fd("exit", 1);
+	exit_code(vec[0]);
 }

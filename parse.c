@@ -6,7 +6,7 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:11:29 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/22 19:55:03 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/23 18:44:53 by htaheri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ static int	parse_heredoc(char **v, int i)
 	{
 		if (!ft_strcmp(hd_str, "ERR"))
 			return (2);
-		print_vec(v);
 		v[i] = ft_strrepl(v[i], "<", "");
 		v[i] = ft_strrepl(v[i], end, hd_str);
 		free(hd_str);
