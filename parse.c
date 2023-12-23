@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:11:29 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/22 19:55:03 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/23 17:26:56 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int		g_fd[2];
 
-static int	parse_redirect(char **v, int i)
+static int	parse_redirect(char **v, int i, int (*then)(char **, int))
 {
 	if (ft_strlen(v[i]) == 1 && (v[i][0] == '<' || v[i][0] == '>'))
 	{
@@ -39,6 +39,7 @@ static int	parse_redirect(char **v, int i)
 		v[i] = ft_strrepl(v[i], ">>", "");
 		v[i + 1] = ft_strrepl(v[i + 1], v[i + 1], "");
 	}
+	then(v, i);
 	return (0);
 }
 
@@ -134,17 +135,18 @@ char	*parse(char *s, char **env)
 	char	*tmp2;
 	char	*tmp3;
 	char	**v;
-	int		hd;
-	int		rd;
 
 	in[0] = 0;
 	v = ft_split(s, ' ');
 	parse_env_vars(v, env);
 	in[1] = ft_veclen(v);
 	while (v[in[0]++])
+		parse_redirect(v, in[0] - 1, parse_heredoc);
+	if (g_fd[0] == -1 || g_fd[1] == -1)
 	{
-		rd = parse_redirect(v, in[0] - 1);
-		hd = parse_heredoc(v, in[0] - 1);
+		g_fd[1] = 1;
+		g_fd[0] = 0;
+		return (terminate(NULL, NULL), ft_strdup(""));
 	}
 	tmp = ft_vecnjoin(v, " ", in[1]);
 	tmp2 = ft_strtrim(tmp, " ");
