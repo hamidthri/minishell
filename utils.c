@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/22 20:01:26 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/23 17:55:47 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void	process(char *line, char **tokens, char ***env)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	add_history(line);
-	while (tokens[i++])
-		tokens[i - 1] = parse(tokens[i - 1], *env);
+	while (tokens[++i])
+		tokens[i] = parse(tokens[i], *env);
 	run_pipes(tokens, ft_veclen(tokens), env);
 	free(line);
 	ft_vecfree(tokens);
