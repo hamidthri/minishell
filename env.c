@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:21:57 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/22 20:16:42 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/23 19:46:30 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,20 @@ char	*get_path(char *program)
 	}
 	ft_vecfree(v);
 	return (NULL);
+}
+
+void	ft_cd(char **vec, char ***env)
+{
+	int	j;
+
+	if (!vec[1])
+		j = chdir(get_env(*env, "HOME"));
+	else if (!ft_strncmp(vec[1], "-", 1))
+		j = chdir(get_env(*env, "OLD_PWD"));
+	else
+		j = chdir(vec[1]);
+	if (j != 0)
+		return (terminate("cd", "No such file or directory"));
+	set_env(env, "OLD_PWD", get_env(*env, "PWD"));
+	set_env(env, "PWD", getcwd(NULL, 0));
 }

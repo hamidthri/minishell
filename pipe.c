@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:16:48 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/23 19:32:07 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/24 19:57:20 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ int			g_fd[2] = {0, 1};
 
 static void	run_builtin(char **v, char ***env)
 {
+	int	i;
+
+	i = 0;
 	if (!ft_strcmp(v[0], "echo"))
 		ft_echo(v);
 	else if (!ft_strcmp(v[0], "cd"))
@@ -27,7 +30,8 @@ static void	run_builtin(char **v, char ***env)
 	else if (!ft_strcmp(v[0], "unset"))
 		set_env(env, v[1], NULL);
 	else if (!ft_strcmp(v[0], "env"))
-		print_vec(*env);
+		while ((*env)[i])
+			ft_putendl_fd((*env)[i++], 1);
 	free(v);
 }
 
@@ -55,7 +59,7 @@ static void	run(char *s, char ***env)
 	ft_vecfree(v);
 }
 
-void	pipe_child( int d[2], int pipefd[2], char *cmd, char ***env)
+void	pipe_child(int d[2], int pipefd[2], char *cmd, char ***env)
 {
 	int	is_not_last;
 	int	in_fd;
@@ -99,10 +103,10 @@ void	pipe_parent(int *d[3], int pipefd[2])
 
 void	run_pipes(char **commands, int n, char ***env)
 {
-	int		pipefd[2];
-	int		i;
-	int		in_fd;
-	int		status;
+	int	pipefd[2];
+	int	i;
+	int	in_fd;
+	int	status;
 
 	i = -1;
 	in_fd = g_fd[0];
@@ -111,7 +115,7 @@ void	run_pipes(char **commands, int n, char ***env)
 		if (i < n - 1)
 			pipe(pipefd);
 		if (fork() == 0)
-			pipe_child((int[2]){i < n - 1, in_fd}, pipefd, commands[i], env);
+			pipe_child((int [2]){i < n - 1, in_fd}, pipefd, commands[i], env);
 		else
 			pipe_parent((int *[3]){&i, &n, &in_fd}, pipefd);
 	}

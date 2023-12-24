@@ -6,11 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:11:29 by mmomeni           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/12/23 18:44:53 by htaheri          ###   ########.fr       */
-=======
-/*   Updated: 2023/12/23 17:26:56 by mmomeni          ###   ########.fr       */
->>>>>>> refs/remotes/origin/main
+/*   Updated: 2023/12/24 19:56:22 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,16 +104,12 @@ static int	parse_heredoc(char **v, int i)
 
 	hd_str = NULL;
 	end = NULL;
-	// Single quotes
 	if (parse_quotes(v[i]).end)
-		end = (char[2]){parse_quotes(v[i]).end, 0};
-	// -----------------------------------------------
-	// Here-docs (it is different from the single quotes.
+		end = (char [2]){parse_quotes(v[i]).end, 0};
 	else if ((ft_strlen(v[i]) == 2 && !ft_strncmp(v[i], "<<", 2)))
 		end = v[i + 1];
 	else if (ft_strnstr(v[i], "<<", ft_strlen(v[i])))
 		end = ft_strchr(v[i], '<') + 2;
-	// -----------------------------------------------
 	if (end)
 		hd_str = here_doc(end);
 	if (hd_str)

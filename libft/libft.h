@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:45:13 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/12/20 13:05:36 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/23 19:39:06 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 int					ft_strcount(char *haystack, char *needle);
 char				*ft_strrmchr(char *str, char *set);
+int					ft_strisnum(char *str);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);

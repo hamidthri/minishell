@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:49:12 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/23 19:32:14 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/24 19:46:58 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,53 +52,14 @@ char	*here_doc(char *end)
 	return (str);
 }
 
-void	print_vec(char **vec)
-{
-	int	i;
-
-	i = 0;
-	while (vec[i])
-	{
-		ft_putstr_fd(vec[i], 1);
-		ft_putstr_fd("\n", 1);
-		i++;
-	}
-}
-
-void	ft_echo(char **vec)
-{
-	int				i;
-	int				flag;
-
-	i = 1;
-	flag = 0;
-	if (vec[1])
-	{
-		while (vec[i] && (ft_strncmp(vec[i], "-n", 2) == 0
-				&& ft_strlen(vec[i]) == 2))
-		{
-			flag = 1;
-			i++;
-		}
-	}
-	while (vec[i])
-	{
-		ft_putstr_fd(vec[i++], STDOUT_FILENO);
-		if (vec[i])
-			ft_putchar_fd(' ', STDOUT_FILENO);
-	}
-	if (!flag)
-		ft_putstr_fd("\n", STDOUT_FILENO);
-}
-
 void	process(char *line, char **tokens, char ***env)
 {
 	int	i;
 
 	i = -1;
 	add_history(line);
-	while (tokens[i++])
-		tokens[i - 1] = parse(tokens[i - 1], *env);
+	while (tokens[++i])
+		tokens[i] = parse(tokens[i], *env);
 	if (!ft_strncmp(line, "exit ", 5))
 		ft_exit(tokens);
 	run_pipes(tokens, ft_veclen(tokens), env);

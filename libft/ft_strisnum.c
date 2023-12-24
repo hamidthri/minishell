@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_strisnum.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 18:24:06 by htaheri           #+#    #+#             */
-/*   Updated: 2023/12/23 19:19:50 by htaheri          ###   ########.fr       */
+/*   Created: 2023/12/23 19:36:57 by mmomeni           #+#    #+#             */
+/*   Updated: 2023/12/23 19:38:39 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int	is_all_digit(char *str)
+int	ft_strisnum(char *str)
 {
 	int	i;
 
@@ -26,23 +26,4 @@ int	is_all_digit(char *str)
 		i++;
 	}
 	return (1);
-}
-
-void	exit_code(char *str)
-{
-	int	code;
-
-	if (!str)
-		code = 0;
-	else if (is_all_digit(str + 4))
-		code = ft_atoi(str + 4);
-	else
-		code = 255;
-	exit(code);
-}
-
-void	ft_exit(char **vec)
-{
-	ft_putendl_fd("exit", 1);
-	exit_code(vec[0]);
 }
