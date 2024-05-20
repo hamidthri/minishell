@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_strcount.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 14:11:14 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/15 16:32:05 by mmomeni          ###   ########.fr       */
+/*   Created: 2023/12/09 20:04:56 by mmomeni           #+#    #+#             */
+/*   Updated: 2023/12/20 12:30:18 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	history_add(char *cmd)
+int	ft_strcount(char *haystack, char *needle)
 {
-	int		fd;
-	size_t	i;
+	int	i;
+	int	j;
+	int	count;
 
-    i = 0;
-	fd = open("~/.minishell_history", O_CREAT | O_APPEND);
-	while (cmd[i])
+	i = 0;
+	count = 0;
+	while (haystack[i])
+	{
+		j = 0;
+		while (needle[j] && haystack[i + j] == needle[j])
+			j++;
+		if (!needle[j])
+			count++;
 		i++;
-	write(fd, "\n", 1);
-	write(fd, cmd, i);
+	}
+	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:45:13 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/15 16:26:53 by mmomeni          ###   ########.fr       */
+/*   Updated: 2023/12/23 19:39:06 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,12 @@ int					ft_isascii(int c);
 int					ft_isprint(int c);
 size_t				ft_strlen(const char *s);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_strcmp(char *s1, char *s2);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
+int					ft_strcount(char *haystack, char *needle);
+char				*ft_strrmchr(char *str, char *set);
+int					ft_strisnum(char *str);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
@@ -41,9 +45,11 @@ size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
 int64_t				ft_atoi(const char *str);
 void				*ft_calloc(size_t count, size_t size);
+char				*ft_strcpy(char *dst, const char *src);
 char				*ft_strdup(const char *s1);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strrepl(char *src, char *old, char *new);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);
@@ -69,5 +75,13 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 char				*get_next_line(int fd);
+
+char				*ft_vecnjoin(char **v, char *sep, int n);
+char				*ft_vecjoin(char **v, char *sep);
+void				ft_vecfree(char **v);
+size_t				ft_veclen(char **v);
+char				**ft_vecdup(char **v);
+void				ft_vecadd(char ***vec, char *str);
+char				*ft_vecget(char **vec, char *key);
 
 #endif

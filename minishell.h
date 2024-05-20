@@ -6,25 +6,51 @@
 /*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
-/*   Updated: 2023/11/25 17:02:31 by htaheri          ###   ########.fr       */
+/*   Updated: 2023/12/24 18:54:31 by mmomeni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <fcntl.h>
-# include <stdio.h>
-# include <unistd.h>
 # include "./libft/libft.h"
+# include <errno.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <termios.h>
+# include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
-typedef struct s_builtin
+# define ERR_HD "syntax error near unexpected token `newline'"
+
+void			process(char *line, char **tokens, char ***env);
+
+void			run_pipes(char **commands, int n, char ***env);
+void			terminate(char *cmd, char *reason);
+
+char			*get_env(char **env, char *key);
+void			set_env(char ***env, char *key, char *value);
+char			*get_path(char *program);
+
+char			*parse(char *s, char **env);
+void			print_vec(char **vec);
+char			*here_doc(char *end);
+
+typedef struct s_quote_parsed
 {
-	char	*pwd;
-	char	*oldpwd;
-}	t_builtin;
+	char		*str;
+	char		end;
+}				t_quote_parsed;
 
-void	history_add(char *cmd);
-void	find_pwd(t_builtin *builtin, char **envp);
+t_quote_parsed	parse_quotes(const char *s);
+/* Builtins */
+void			ft_echo(char **v);
+void			ft_cd(char **v, char ***env);
+void			ft_export(char **v, char ***env);
+void			ft_exit(char **v);
 
 #endif
