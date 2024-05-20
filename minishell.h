@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmomeni <mmomeni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: htaheri <htaheri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:11:18 by mmomeni           #+#    #+#             */
 /*   Updated: 2023/12/24 18:54:31 by mmomeni          ###   ########.fr       */
@@ -47,7 +47,6 @@ typedef struct s_quote_parsed
 }				t_quote_parsed;
 
 t_quote_parsed	parse_quotes(const char *s);
-
 /* Builtins */
 void			ft_echo(char **v);
 void			ft_cd(char **v, char ***env);
